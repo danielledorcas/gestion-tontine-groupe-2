@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+  <div class="col-12 d-flex flex-wrap gap-2">
+      <a href="{% url 'adhesion_tontine' %}" class="btn btn-warning text-dark shadow">Demander adhésion</a>
+  </div>
+</div>
+<div class="container">
+  <h1>Liste des Tontines</h1>
+  
+  <!-- Diagramme circulaire compact -->
+  <div class="mb-4 d-flex justify-content-center">
+    <div style="width: 300px; height: 300px;">
+      <h5 class="text-center">Répartition des cotisations</h5>
+      <canvas id="tontineChart" width="300" height="300"></canvas>
+    </div>
+  </div>
+
+  <!-- Liste des tontines -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Montant de cotisation</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tontine in tontines %}
+      <tr>
+        <td>{{ tontine.id }}</td>
+        <td>{{ tontine.nom }}</td>
+        <td>{{ tontine.description }}</td>
+        <td>{{ tontine.montant_cotisation }}</td>
+        <td>
+          <a href="{% url 'tontines:detail_tontine' tontine.id %}" class="btn btn-info btn-sm">Détails</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('tontineChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: {{ labels|safe }},
+      datasets: [{
+        label: 'Montant des cotisations',
+        data: {{ data|safe }},
+        backgroundColor: [
+          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+          '#9966FF', '#FF9F40', '#C2185B', '#7B1FA2',
+          '#9CCC65', '#F06292', '#00ACC1', '#FDD835'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.raw + ' FCFA';
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

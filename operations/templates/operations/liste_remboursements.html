@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Liste des remboursements</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Montant du prêt</th>
+                    <th>Montant remboursé</th>
+                    <th>Date de paiement</th>
+                    <th>Enregistré par</th>
+                    <th>Commentaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for remboursement in remboursements %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ remboursement.pret.montant|floatformat:0 }} FCFA</td>
+                    <td>{{ remboursement.montant|floatformat:0 }} FCFA</td>
+                    <td>{{ remboursement.date_paiement|date:"d/m/Y" }}</td>
+                    <td>{{ remboursement.enregistre_par.username }}</td>
+                    <td>{{ remboursement.commentaire|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Aucun remboursement enregistré.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if remboursements.has_other_pages %}
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            {% if remboursements.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ remboursements.previous_page_number }}" aria-label="Précédent">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for num in remboursements.paginator.page_range %}
+                {% if num >= remboursements.number|add:'-2' and num <= remboursements.number|add:'2' %}
+                    {% if remboursements.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if remboursements.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ remboursements.next_page_number }}" aria-label="Suivant">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

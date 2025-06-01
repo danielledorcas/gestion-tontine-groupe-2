@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">{{ title }}</h2>
+
+    <form method="post" enctype="multipart/form-data" class="shadow p-4 rounded bg-light">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_membre" class="form-label">Membre</label>
+            {{ form.membre|as_widget:class="form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_tontine" class="form-label">Tontine</label>
+            {{ form.tontine|as_widget:class="form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_montant" class="form-label">Montant</label>
+            {{ form.montant|as_widget:class="form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_taux_interet" class="form-label">Taux d’intérêt (%)</label>
+            {{ form.taux_interet|as_widget:class="form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_date_echeance" class="form-label">Date d’échéance</label>
+            {{ form.date_echeance|as_widget:class="form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_statut" class="form-label">Statut</label>
+            {{ form.statut|as_widget:class="form-select" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_cni_justificatif" class="form-label">Photocopie de la CNI</label>
+            {{ form.cni_justificatif|as_widget:class="form-control" }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Soumettre la demande</button>
+    </form>
+</div>
+{% endblock %}

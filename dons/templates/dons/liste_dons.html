@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Liste des dons</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Montant</th>
+            <th>Date</th>
+            <th>Membre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for don in dons %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ don.montant }}</td>
+            <td>{{ don.date|date:"d/m/Y" }}</td>
+            <td>{{ don.membre }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Aucun don enregistré.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

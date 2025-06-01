@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ tontine.nom }}</h2>
+        <a href="{% url 'tontines:liste' %}" class="btn btn-outline-secondary">← Back to list</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Description</h5>
+            <p class="card-text">{{ tontine.description|default:"No description available." }}</p>
+
+            <hr>
+
+            <h5>Membres</h5>
+            {% if membres %}
+                <ul class="list-group list-group-flush">
+                    {% for membre in membres %}
+                        <li class="list-group-item">
+                            {{ membre.membre.nom }} {{ membre.membre.prenom }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No members yet.</p>
+            {% endif %}
+
+            <hr>
+
+            <h5>Cycles</h5>
+            {% if cycles %}
+                <ul class="list-group list-group-flush">
+                    {% for cycle in cycles %}
+                        <li class="list-group-item">
+                            {{ cycle.nom }} ({{ cycle.date_debut }} - {{ cycle.date_fin }})
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No cycles available.</p>
+            {% endif %}
+
+            <div class="d-flex justify-content-end mt-4">
+                <a href="{% url 'tontines:liste' %}" class="btn btn-secondary">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

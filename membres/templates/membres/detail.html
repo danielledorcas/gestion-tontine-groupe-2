@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails du membre{% endblock %}
+
+{% block page_title %}
+    Détails du membre: {{ membre.nom }} {{ membre.prenom }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h5>Détails du membre</h5>
+        </div>
+        <div class="card-body">
+            <h6><strong>Nom:</strong> {{ membre.nom }}</h6>
+            <h6><strong>Prénom:</strong> {{ membre.prenom }}</h6>
+            <h6><strong>Email:</strong> {{ membre.email }}</h6>
+            <h6><strong>Téléphone:</strong> {{ membre.telephone }}</h6>
+        </div>
+
+        <div class="card-footer">
+            <h5>Tontines associées:</h5>
+            {% if tontines %}
+                <ul class="list-group">
+                    {% for tontine in tontines %}
+                        <li class="list-group-item">
+                            <strong>{{ tontine.nom }}</strong><br>
+                            Description: {{ tontine.description|truncatewords:10 }}<br>
+                            Statut: {% if tontine.est_active %}Active{% else %}Inactive{% endif %}
+
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucune tontine associée à ce membre.</p>
+            {% endif %}
+        </div>
+
+        <div class="card-footer mt-3">
+            <h5>Prêts associés:</h5>
+            {% if prets %}
+                <ul class="list-group">
+                    {% for pret in prets %}
+                        <li class="list-group-item">
+                            <strong>{{ pret.nom }}</strong><br>
+                            Montant: {{ pret.montant }} FCFA<br>
+                            Statut: {{ pret.get_statut_display }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucun prêt associé à ce membre.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'membres:liste_membres' %}" class="btn btn-secondary">Retour à la liste des membres</a>
+    </div>
+{% endblock %}

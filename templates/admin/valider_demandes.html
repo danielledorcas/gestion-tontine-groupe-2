@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Validation des demandes</h2>
+
+<h3>Prêts</h3>
+<ul>
+  {% for demande in demandes_pret %}
+    <li>
+      {{ demande.membre }} - {{ demande.montant }} FCFA
+      <form method="post" action="{% url 'valider_demande_pret' demande.id %}">
+        {% csrf_token %}
+        <button name="action" value="accepter">Accepter</button>
+        <button name="action" value="rejeter">Rejeter</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>Aucune demande.</li>
+  {% endfor %}
+</ul>
+
+<h3>Cotisations</h3>
+<ul>
+  {% for demande in demandes_cotisation %}
+    <li>
+      {{ demande.membre }} - {{ demande.montant }} FCFA
+      <form method="post" action="{% url 'valider_demande_cotisation' demande.id %}">
+        {% csrf_token %}
+        <button name="action" value="accepter">Accepter</button>
+        <button name="action" value="rejeter">Rejeter</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>Aucune demande.</li>
+  {% endfor %}
+</ul>
+
+<h3>Remboursements</h3>
+<ul>
+  {% for demande in demandes_remboursement %}
+    <li>
+      {{ demande.pret }} - {{ demande.montant }} FCFA
+      <form method="post" action="{% url 'valider_demande_remboursement' demande.id %}">
+        {% csrf_token %}
+        <button name="action" value="accepter">Accepter</button>
+        <button name="action" value="rejeter">Rejeter</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>Aucune demande.</li>
+  {% endfor %}
+</ul>
+
+<h3>Dons</h3>
+<ul>
+  {% for demande in demandes_don %}
+    <li>
+      {{ demande.donateur }} → {{ demande.beneficiaire }} - {{ demande.montant }} FCFA
+      <form method="post" action="{% url 'valider_demande_don' demande.id %}">
+        {% csrf_token %}
+        <button name="action" value="accepter">Accepter</button>
+        <button name="action" value="rejeter">Rejeter</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>Aucune demande.</li>
+  {% endfor %}
+</ul>
+
+<h3>Adhésions</h3>
+<ul>
+  {% for demande in demandes_adhesion %}
+    <li>
+      {{ demande.membre }} veut rejoindre {{ demande.tontine }}
+      <form method="post" action="{% url 'valider_demande_adhesion' demande.id %}">
+        {% csrf_token %}
+        <button name="action" value="accepter">Accepter</button>
+        <button name="action" value="rejeter">Rejeter</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>Aucune demande.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ site_header }}</h1>
+
+<div class="container my-4">
+  <div class="row mb-4"> 
+    <!-- Cartes statistiques -->
+    {% for key, value in stats.items %}
+      <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary h-100">
+          <div class="card-body">
+            <!-- Remplace ici par la clé déjà nettoyée dans la vue -->
+            <h5 class="card-title text-capitalize">{{ key }}</h5>
+            <p class="card-text display-4">{{ value }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <!-- Derniers prêts -->
+    <div class="col-md-6">
+      <h3>Derniers prêts</h3>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Membre</th>
+            <th>Tontine</th>
+            <th>Montant</th>
+            <th>Date demande</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pret in derniers_prets %}
+          <tr>
+            <td>{{ pret.membre.nom }} {{ pret.membre.prenom }}</td>
+            <td>{{ pret.tontine.nom }}</td>
+            <td>{{ pret.montant }}</td>
+            <td>{{ pret.date_demande|date:"d/m/Y" }}</td>
+            <td>{{ pret.get_statut_display }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5">Aucun prêt récent</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Derniers dons -->
+    <div class="col-md-6">
+      <h3>Derniers dons</h3>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Donateur</th>
+            <th>Tontine</th>
+            <th>Montant</th>
+            <th>Date don</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for don in derniers_dons %}
+          <tr>
+            <td>{{ don.donateur.membre.nom }} {{ don.donateur.membre.prenom }}</td>
+            <td>{{ don.tontine.nom }}</td>
+            <td>{{ don.montant }}</td>
+            <td>{{ don.date_don|date:"d/m/Y" }}</td>
+            <td>{{ don.get_sens_don_display }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5">Aucun don récent</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap 5 CSS via CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mon Espace - Suivi des demandes</h2>
+
+<h3>Mes demandes de prêt</h3>
+<table>
+  <tr><th>Montant</th><th>Statut</th><th>Date</th></tr>
+  {% for demande in demandes_pret %}
+    <tr>
+      <td>{{ demande.montant }} FCFA</td>
+      <td>{{ demande.statut }}</td>
+      <td>{{ demande.date_demande }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Aucune demande de prêt.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Mes demandes de cotisation</h3>
+<table>
+  <tr><th>Montant</th><th>Statut</th><th>Date</th></tr>
+  {% for demande in demandes_cotisation %}
+    <tr>
+      <td>{{ demande.montant }} FCFA</td>
+      <td>{{ demande.statut }}</td>
+      <td>{{ demande.date_demande }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Aucune cotisation demandée.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Mes remboursements</h3>
+<table>
+  <tr><th>Montant</th><th>Statut</th><th>Date</th></tr>
+  {% for demande in demandes_remboursement %}
+    <tr>
+      <td>{{ demande.montant }} FCFA</td>
+      <td>{{ demande.statut }}</td>
+      <td>{{ demande.date_demande }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Aucun remboursement soumis.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Mes dons</h3>
+<table>
+  <tr><th>Montant</th><th>À</th><th>Statut</th><th>Date</th></tr>
+  {% for demande in demandes_don %}
+    <tr>
+      <td>{{ demande.montant }} FCFA</td>
+      <td>{{ demande.beneficiaire }}</td>
+      <td>{{ demande.statut }}</td>
+      <td>{{ demande.date_don }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Aucun don.</td></tr>
+  {% endfor %}
+</table>
+
+<h3>Mes demandes d’adhésion</h3>
+<table>
+  <tr><th>Tontine</th><th>Statut</th><th>Date</th></tr>
+  {% for demande in demandes_adhesion %}
+    <tr>
+      <td>{{ demande.tontine }}</td>
+      <td>{{ demande.statut }}</td>
+      <td>{{ demande.date_demande }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Aucune adhésion demandée.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

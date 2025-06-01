@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Demande d'adhésion à une tontine</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Demander à rejoindre</button>
+</form>
+
+<div class="container-md mt-5">
+    <div class="row mb-4">
+        <div class="col-12 d-flex flex-wrap gap-2">
+            <a href="{% url 'adhesion_tontine' %}" class="btn btn-primary shadow-sm px-4 py-2">
+                Demander une adhésion
+            </a>
+        </div>
+    </div>
+
+    <!-- Ici, tu peux mettre d’autres infos utiles -->
+</div>
+{% endblock %}

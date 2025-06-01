@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Bootstrap CSS depuis CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid mt-4">
+    <h1 class="text-center mb-4">Liste des Remboursements</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Prêt</th>
+                    <th>Membre</th>
+                    <th>Montant</th>
+                    <th>Date de Paiement</th>
+                    <th>Enregistré Par</th>
+                    <th>Commentaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for remboursement in remboursements %}
+                <tr>
+                    <td>{{ remboursement.id }}</td>
+                    <td>{{ remboursement.pret.id }}</td>
+                    <td>{{ remboursement.pret.membre.nom_complet }}</td>
+                    <td>{{ remboursement.montant|floatformat:0 }} FCFA</td>
+                    <td>{{ remboursement.date_paiement|date:"d/m/Y" }}</td>
+                    <td>{{ remboursement.enregistre_par.username }}</td>
+                    <td>{{ remboursement.commentaire|default:"Aucun commentaire" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">Aucun remboursement enregistré pour le moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
